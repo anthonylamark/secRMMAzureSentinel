@@ -1,0 +1,121 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "## Removable Storage security via Squadra Technologies secRMM\n---\nFile writes to removable storage by User\n\n"
+      },
+      "name": "text - 2"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "secRMM_CL | where Event_s == \"WRITE COMPLETED\" | summarize count() by User_s | render barchart",
+        "size": 1,
+        "exportToExcelOptions": "visible",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "User_s",
+              "formatter": 0,
+              "formatOptions": {
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "count_",
+              "formatter": 0,
+              "formatOptions": {
+                "showIcon": true
+              }
+            }
+          ],
+          "labelSettings": [
+            {
+              "columnId": "User_s",
+              "label": "User_s"
+            },
+            {
+              "columnId": "count_",
+              "label": "count_"
+            }
+          ]
+        }
+      },
+      "name": "query - 2"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "File writes to removable storage by Computer"
+      },
+      "name": "text - 2",
+      "styleSettings": {
+        "showBorder": true
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "secRMM_CL \r\n| where TimeGenerated > ago(1d)\r\n| where Event_s == \"WRITE COMPLETED\"\r\n| summarize count() by Computer, bin(TimeGenerated, 1h)\r\n| render piechart",
+        "size": 0,
+        "exportToExcelOptions": "visible",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "query - 3"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "Removable Storage security events\r\n"
+      },
+      "name": "text - 4",
+      "styleSettings": {
+        "showBorder": true
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "secRMM_CL \r\n| where isnotempty(Event_s) \r\n| summarize count() by Event_s \r\n| render piechart",
+        "size": 0,
+        "exportToExcelOptions": "visible",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "query - 5"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "Removable Storage devices used\r\n"
+      },
+      "name": "text - 6",
+      "styleSettings": {
+        "showBorder": true
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "secRMM_CL\r\n| summarize count() by SerialNumber_s\r\n| render piechart",
+        "size": 0,
+        "exportToExcelOptions": "visible",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "query - 7"
+    }
+  ],
+  "styleSettings": {},
+  "fromTemplateId": "sentinel-UserWorkbook",
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
